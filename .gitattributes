@@ -1,0 +1,13 @@
+# .bat 必须保持 CRLF —— cmd.exe 对 LF 结尾的处理不可靠
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 源码和文档统一 LF，避免跨平台 diff 噪音
+*.py   text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+
+# 图片等二进制
+*.png  binary
+*.jpg  binary
+*.ico  binary

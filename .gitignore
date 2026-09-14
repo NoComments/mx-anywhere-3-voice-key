@@ -1,0 +1,26 @@
+# WorkBuddy 会话数据（本地项目记忆），不入库
+.workbuddy-ai/
+
+# 一次性的实验脚本，几十个临时文件，对仓库没有价值
+tools/_archive/
+
+# 破坏性的一次性脚本，带硬编码用户路径，不适合公开
+tools/彻底卸载LogiOptions.bat
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 运行产物
+*.log
+tools/run.log
+tools/verify.log
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
