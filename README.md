@@ -165,6 +165,7 @@ UIPI 机制）。普通程序（包括微信输入法）不受影响。
 | `tools/holdtest.py` | 测量按住时长，判断是否会自动重复上报 |
 | `tools/injecttest.py` | 用键盘钩子验证 Ctrl+Alt 注入的按键顺序 |
 | `tools/listen.py` | 带 sw 过滤的纯净监听器 |
+| `tools/test_gui.py` | 验证控制面板：开机自启开关 + 「启动」按钮实际走的代码路径 |
 | `tools/SOLUTION.md` | 完整技术记录 |
 | `tools/DIAGNOSIS.txt` | 早期错误结论的撤回说明 |
 

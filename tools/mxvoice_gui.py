@@ -222,6 +222,11 @@ class Engine(threading.Thread):
                 return
 
             q.put(("status", "运行中"))
+            # NOTE: contextlib.redirect_stdout is PROCESS-GLOBAL, not
+            # thread-local. While mv.run() is inside this block, every print()
+            # anywhere in this process lands in the GUI log -- including from
+            # the Tk thread. Harmless here (the UI never prints), but do not
+            # print from a Tk callback and expect to see it on the console.
             with contextlib.redirect_stdout(QueueWriter(q)):
                 mv.run(h, feat, do_inject=self.do_inject,
                        read_handle=hr, req_handle=hq,

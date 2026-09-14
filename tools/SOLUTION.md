@@ -163,6 +163,7 @@ python mxvoice.py --seconds 60    # 跑 60 秒后自动退出
 | `holdtest.py` | 测量按住时长，判断是否会自动重复上报 |
 | `injecttest.py` | 用键盘钩子验证 Ctrl+Alt 注入 |
 | `listen.py` | 带 sw 过滤的纯净监听器 |
+| `test_gui.py` | 验证控制面板：开机自启开关 + 「启动」按钮实际走的代码路径 |
 
 启动器分布在三处：
 `tools\start-voice.bat`、桌面「语音键-控制面板.bat」与
