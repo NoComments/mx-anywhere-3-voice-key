@@ -19,17 +19,27 @@
 识别出文字。程序日志与输入法语音日志的时间戳一一对应。
 
 ### 日常使用
-三种启动方式，任选一种：
+四种启动方式，任选一种：
 
 | 方式 | 操作 |
 |---|---|
-| 桌面快捷方式 | 双击桌面上的「语音键-按住说话.bat」 |
+| 桌面控制面板 | 双击桌面上的「语音键-控制面板.bat」——有界面、无黑框 |
+| 桌面控制台版 | 双击桌面上的「语音键-按住说话.bat」 |
 | 原脚本 | 双击 `tools\start-voice.bat` |
 | 开机自启 | 已配置好，登录后自动最小化运行，不用管它 |
+
+控制面板提供：启动/停止、实时日志、「只记录不注入」排错开关、
+「开机自动启动」开关、「使用说明」按钮。它用 `pythonw.exe` 启动，
+所以不会出现黑框窗口；如果当前 Python 没有 tkinter，脚本会自动
+切换到机器上带 tkinter 的那个 Python 再运行。
 
 启动后：**按住滚轮后面那个键说话，松手自动转文字**，所有程序通用。
 
 停止：按 `Ctrl+C`（或直接关掉窗口），按键会自动恢复成原来的模式切换。
+
+> 控制面板和控制台版可以同时存在，但**不会同时生效**：命名互斥体
+> （`Local\mxvoice_singleton`）会让后启动的那个直接拒绝启动，
+> 避免两个实例重复 divert、重复注入 Ctrl+Alt。
 
 ### 不需要管理员权限
 HID++ 的全部操作（包括 `setCidReporting` divert）在**普通用户**下就能工作 ——
@@ -118,6 +128,8 @@ python mxvoice.py --seconds 60    # 跑 60 秒后自动退出
 | 按了没反应 | 用 `--no-inject` 跑，看日志里有没有 `DOWN` / `UP` |
 | 按住说话被反复打断 | 调大去抖：`--debounce 400` |
 | 退出后滚轮模式切换失灵 | 运行 `python restore.py` 清除残留的 divert |
+| 控制面板双击没反应 | 该 Python 缺 tkinter。脚本会自动换一个带 tkinter 的 Python；若机器上都没有，装个 python.org 的完整版 |
+| 双击 .bat 一闪而过 | .bat 必须是 **GBK** 编码，UTF-8 中文会被 cmd 弄乱。跑 `make_launchers.py` 重新生成 |
 
 ### 怎么判断到底是"按键没读到"还是"输入法没响应"
 
@@ -142,9 +154,10 @@ python mxvoice.py --seconds 60    # 跑 60 秒后自动退出
 | 文件 | 用途 |
 |---|---|
 | `mxvoice.py` | 主程序 |
+| `mxvoice_gui.py` | 桌面控制面板（Tkinter，无第三方依赖） |
 | `start-voice.bat` | 启动脚本（GBK 编码，无需提权） |
 | `restore.py` | 清除残留 divert，恢复按键原状 |
-| `make_launchers.py` | 重新生成三个启动器（GBK 编码） |
+| `make_launchers.py` | 重新生成全部启动器（GBK 编码） |
 | `hidpp.py` | 零依赖的 HID++ 2.0 实现（ctypes） |
 | `verify.py` | 双按钮对照实验 |
 | `holdtest.py` | 测量按住时长，判断是否会自动重复上报 |
@@ -152,6 +165,6 @@ python mxvoice.py --seconds 60    # 跑 60 秒后自动退出
 | `listen.py` | 带 sw 过滤的纯净监听器 |
 
 启动器分布在三处：
-`tools\start-voice.bat`、桌面「语音键-按住说话.bat」、
-启动目录 `MX语音键.bat`（登录自动运行）。
+`tools\start-voice.bat`、桌面「语音键-控制面板.bat」与
+「语音键-按住说话.bat」、启动目录 `MX语音键.bat`（登录自动运行）。
 改动主程序路径后，跑一次 `python make_launchers.py` 就能全部重新生成。
